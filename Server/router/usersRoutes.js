@@ -17,6 +17,6 @@ router.post("/login", userLogin);
 router.post("/createProduct" ,userProtect ,upload, createProduct);
 router.get("/getAllProducts", getAllProducts);
 router.get("/getSingleProduct/:id",userProtect , getSingleProduct);
-router.post("/updateSingleProduct/:id",userProtect, upload, updateSingleProduct);
+router.put("/updateSingleProduct/:id",userProtect, upload, updateSingleProduct);
 router.delete("/deleteProduct/:id", userProtect,deleteProduct);
 module.exports = router;

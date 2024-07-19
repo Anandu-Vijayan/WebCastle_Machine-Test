@@ -1,11 +1,13 @@
 "use client";
 import Header from "@/components/Header";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const router = useRouter(); // Initialize useRouter
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -51,6 +53,21 @@ const ProductList = () => {
     return <div>Error: {error}</div>;
   }
 
+  const handleProductClick = (productId) => {
+    router.push(`/singleProduct?id=${productId}`); // Redirect to singleProduct page with product ID
+  };
+
+  const handleProductClickToUpdate = (event, productId) => {
+    event.stopPropagation();
+    router.push(`/updateProduct?id=${productId}`);
+  };
+
+  const handleProductClickToDelete = (event, productId) => {
+    event.stopPropagation();
+    // Add your delete logic here
+    console.log(`Delete product with id: ${productId}`);
+  };
+
   return (
     <>
       <Header />
@@ -58,7 +75,11 @@ const ProductList = () => {
         <h1 className="text-2xl font-bold mb-4">Product List</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {products.map((product) => (
-            <div key={product._id} className="border rounded-lg p-4 shadow-lg">
+            <div
+              key={product._id}
+              className="border rounded-lg p-4 shadow-lg cursor-pointer"
+              onClick={() => handleProductClick(product._id)} // Add onClick handler
+            >
               <div className="relative w-full h-48">
                 <img
                   src={`http://localhost:4000/${product.images[0]}`}
@@ -70,10 +91,16 @@ const ProductList = () => {
                 <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
                 <p className="text-gray-600 mb-4">{product.description}</p>
                 <div className="flex justify-end space-x-2">
-                  <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                  <button
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                    onClick={(event) => handleProductClickToUpdate(event, product._id)}
+                  >
                     Update
                   </button>
-                  <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                  <button
+                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                    onClick={(event) => handleProductClickToDelete(event, product._id)}
+                  >
                     Delete
                   </button>
                 </div>
