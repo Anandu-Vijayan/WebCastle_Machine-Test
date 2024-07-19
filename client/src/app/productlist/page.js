@@ -7,7 +7,7 @@ const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const router = useRouter(); // Initialize useRouter
+  const router = useRouter();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -54,7 +54,7 @@ const ProductList = () => {
   }
 
   const handleProductClick = (productId) => {
-    router.push(`/singleProduct?id=${productId}`); // Redirect to singleProduct page with product ID
+    router.push(`/singleProduct?id=${productId}`);
   };
 
   const handleProductClickToUpdate = (event, productId) => {
@@ -62,10 +62,43 @@ const ProductList = () => {
     router.push(`/updateProduct?id=${productId}`);
   };
 
-  const handleProductClickToDelete = (event, productId) => {
+  const handleProductClickToDelete = async (event, productId) => {
     event.stopPropagation();
-    // Add your delete logic here
-    console.log(`Delete product with id: ${productId}`);
+
+    const confirmDelete = confirm("Are you sure you want to delete this product?");
+    if (!confirmDelete) return;
+
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        `http://localhost:4000/users/api/v2/deleteProduct/${productId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const errorMessage = await response.text();
+        throw new Error(errorMessage || "Failed to delete product");
+      }
+
+      const data = await response.json();
+
+      if (data.success === true) {
+        setProducts((prevProducts) =>
+          prevProducts.filter((product) => product._id !== productId)
+        );
+        router.push("/productlist");
+      } else {
+        console.error("Failed to delete product:", data);
+        setError("Failed to delete product");
+      }
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   return (
@@ -78,7 +111,7 @@ const ProductList = () => {
             <div
               key={product._id}
               className="border rounded-lg p-4 shadow-lg cursor-pointer"
-              onClick={() => handleProductClick(product._id)} // Add onClick handler
+              onClick={() => handleProductClick(product._id)}
             >
               <div className="relative w-full h-48">
                 <img

@@ -27,7 +27,7 @@ const Page = () => {
 
       const data = await response.json();
       localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      
 
       router.push("/");
     } catch (error) {
