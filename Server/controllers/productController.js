@@ -1,8 +1,14 @@
 const Product = require("../models/productDetails");
+const path = require('path');
 
 const createProduct = async (req, res) => {
   const { name, price, description, category, stock, ratings } = req.body;
-  const imagePaths = req.files.map((file) => file.path);
+  
+ 
+  const imagePaths = req.files.map((file) => {
+    
+    return path.basename(file.path); 
+  });
 
   try {
     const newProduct = new Product({
@@ -22,6 +28,7 @@ const createProduct = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
 
 const getAllProducts = async (req, res) => {
   try {
@@ -49,7 +56,10 @@ const getSingleProduct = async (req, res) => {
 };
 const updateSingleProduct = async (req, res) => {
   const { name, price, description, category, stock, ratings } = req.body;
-  const imagePaths = req.files.map((file) => file.path);
+  const imagePaths = req.files.map((file) => {
+    
+    return path.basename(file.path); 
+  });
   try {
     const id = req.params.id;
     const updateProduct = await Product.findByIdAndUpdate(

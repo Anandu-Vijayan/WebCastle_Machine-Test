@@ -4,7 +4,6 @@ const cors = require('cors');
 const path = require('path'); 
 const bodyParser = require("body-parser");
 const connectDB = require('./config/db');
-const adminRoutes = require('./router/adminRoutes'); 
 const usersRoutes = require('./router/usersRoutes');
 
 dotenv.config();
@@ -19,7 +18,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/', express.static(path.join(__dirname, '/uploads')));
 
 app.use("/users/api/v2", usersRoutes);
-app.use("/admin/api/v1", adminRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

@@ -1,8 +1,9 @@
-import Header from "@/componeents/Herder";
-import Image from "next/image";
+import Homes from "@/components/Home";
 
 export default function Home() {
   return (
-   <Header/>
+    <div>
+      <Homes />
+    </div>
   );
 }
