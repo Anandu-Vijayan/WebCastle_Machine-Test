@@ -4,6 +4,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Header from "@/components/Header";
 
 const UpdateProductPage = () => {
+
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const [product, setProduct] = useState({
     name: "",
     price: "",
@@ -35,7 +37,7 @@ const UpdateProductPage = () => {
         try {
           const token = localStorage.getItem("token");
           const response = await fetch(
-            `http://localhost:4000/users/api/v2/getSingleProduct/${id}`,
+            `${apiUrl}/getSingleProduct/${id}`,
             {
               method: "GET",
               headers: {
@@ -84,7 +86,7 @@ const UpdateProductPage = () => {
       }
 
       const response = await fetch(
-        `http://localhost:4000/users/api/v2/updateSingleProduct/${id}`,
+        `${apiUrl}/updateSingleProduct/${id}`,
         {
           method: "PUT",
           headers: {

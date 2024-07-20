@@ -11,6 +11,8 @@ const SignUpPage = () => {
   const [success, setSuccess] = useState('');
   const router = useRouter();
 
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
   useEffect(() => {
     if (success) {
       const timer = setTimeout(() => {
@@ -26,7 +28,7 @@ const SignUpPage = () => {
     setSuccess('');
 
     try {
-      const response = await fetch('http://localhost:4000/users/api/v2/signup', {
+      const response = await fetch(`${apiUrl}/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

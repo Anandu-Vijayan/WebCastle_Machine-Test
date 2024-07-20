@@ -9,14 +9,16 @@ const SingleProductPage = () => {
   const [error, setError] = useState(null);
   const params = useSearchParams();
   const id = params.get("id");
-
+  
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const imageUrl = process.env.NEXT_PUBLIC_IMAGE_API_URL;
   useEffect(() => {
     if (id) {
       const fetchProduct = async () => {
         try {
           const token = localStorage.getItem("token");
           const response = await fetch(
-            `http://localhost:4000/users/api/v2/getSingleProduct/${id}`,
+            `${apiUrl}/getSingleProduct/${id}`,
             {
               method: "GET",
               headers: {
@@ -68,7 +70,7 @@ const SingleProductPage = () => {
         {product ? (
           <div className="bg-white shadow-md rounded-lg overflow-hidden">
             <img
-              src={`http://localhost:4000/${product.images[0]}`}
+               src={`${imageUrl}${product.images[0]}`}
               alt={product.name}
               className="w-full h-64 object-cover"
             />

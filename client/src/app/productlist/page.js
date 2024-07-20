@@ -8,13 +8,16 @@ const ProductList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const router = useRouter();
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const imageUrl = process.env.NEXT_PUBLIC_IMAGE_API_URL;
 
   useEffect(() => {
     const fetchProducts = async () => {
+     
       try {
         const token = localStorage.getItem("token");
         const response = await fetch(
-          "http://localhost:4000/users/api/v2/getAllProducts",
+          `${apiUrl}/getAllProducts`,
           {
             method: "GET",
             headers: {
@@ -71,7 +74,7 @@ const ProductList = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:4000/users/api/v2/deleteProduct/${productId}`,
+        `${apiUrl}/deleteProduct/${productId}`,
         {
           method: "DELETE",
           headers: {
@@ -115,7 +118,7 @@ const ProductList = () => {
             >
               <div className="relative w-full h-48">
                 <img
-                  src={`http://localhost:4000/${product.images[0]}`}
+                  src={`${imageUrl}${product.images[0]}`}
                   alt={product.name}
                   className="w-full h-48 object-cover rounded-t-lg"
                 />

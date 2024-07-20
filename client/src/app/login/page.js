@@ -3,6 +3,8 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
+
+
 const Page = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -11,9 +13,10 @@ const Page = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
     try {
-      const response = await fetch("http://localhost:4000/users/api/v2/login", {
+      const response = await fetch(`${apiUrl}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

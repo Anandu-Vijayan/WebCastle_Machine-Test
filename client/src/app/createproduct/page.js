@@ -30,6 +30,7 @@ const ProductForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
     // Get the token from localStorage
     const token = localStorage.getItem('token');
@@ -49,7 +50,7 @@ const ProductForm = () => {
     });
 
     try {
-      const response = await fetch('http://localhost:4000/users/api/v2/createProduct', {
+      const response = await fetch(`${apiUrl}/createProduct`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
